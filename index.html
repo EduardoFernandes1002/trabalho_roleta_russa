@@ -1,0 +1,142 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+<meta charset="UTF-8">
+<title>Roleta Russa</title>
+
+<style>
+    body {
+        background: #111;
+        color: #eee;
+        font-family: Arial, sans-serif;
+        text-align: center;
+        padding: 20px;
+    }
+
+    h1 {
+        font-size: 30px;
+        margin-bottom: 10px;
+    }
+
+    .container {
+        display: flex;
+        justify-content: space-around;
+        margin-top: 30px;
+        flex-wrap: wrap;
+    }
+
+    .player-box {
+        width: 280px;
+        background: #1a1a1a;
+        padding: 20px;
+        border-radius: 15px;
+        box-shadow: 0 0 10px #000;
+    }
+
+    .player-title {
+        font-size: 22px;
+        margin-bottom: 10px;
+    }
+
+    .vidas {
+        font-size: 28px;
+        margin: 10px 0;
+    }
+
+    .perdeu {
+        animation: perder 0.3s ease;
+    }
+
+    @keyframes perder {
+        0% { transform: scale(1); color: #fff; }
+        50% { transform: scale(1.5); color: red; }
+        100% { transform: scale(1); color: #fff; }
+    }
+
+    .tambores {
+        margin-top: 20px;
+        font-size: 32px;
+        letter-spacing: 5px;
+    }
+
+    .vencedor {
+        margin-top: 30px;
+        font-size: 26px;
+        font-weight: bold;
+        color: gold;
+        text-shadow: 0 0 10px gold;
+    }
+</style>
+</head>
+<body>
+
+<h1>Roleta Russa</h1>
+<h2 id="vez-info">Carregando…</h2>
+
+<div class="container">
+    <div class="player-box">
+        <div class="player-title">Jogador 1</div>
+        <div id="vida1" class="vidas">❤️❤️❤️</div>
+    </div>
+
+    <div class="player-box">
+        <div class="player-title">Jogador 2</div>
+        <div id="vida2" class="vidas">❤️❤️❤️</div>
+    </div>
+</div>
+
+<h2>Tambores restantes</h2>
+<div id="tambores" class="tambores">🔘🔘🔘🔘🔘🔘</div>
+
+<div id="msg-final" class="vencedor"></div>
+
+<audio id="som-tiro">
+    <source src="https://assets.mixkit.co/sfx/preview/mixkit-pistol-shot-1668.mp3">
+</audio>
+
+<script>
+// Atualiza interface lendo o .txt gerado pelo Python
+let lastVida1 = 3;
+let lastVida2 = 3;
+
+function atualizar() {
+    fetch("interface_roleta_russa.txt?cache=" + Math.random())
+    .then(r => r.text())
+    .then(t => {
+        if (!t.trim()) return;
+
+        const linhas = t.split("\n");
+
+        let vez = Number(linhas[0].split(":")[1]);
+        let v1 = Number(linhas[1].split(":")[1]);
+        let v2 = Number(linhas[2].split(":")[1]);
+        let tamb = Number(linhas[3].split(":")[1]);
+
+        document.getElementById("vez-info").innerText = "Jogador da vez: " + vez;
+        document.getElementById("vida1").innerHTML = "❤️".repeat(v1);
+        document.getElementById("vida2").innerHTML = "❤️".repeat(v2);
+        document.getElementById("tambores").innerHTML = "🔘".repeat(tamb);
+
+        if (v1 < lastVida1) animacaoPerderVida("vida1");
+        if (v2 < lastVida2) animacaoPerderVida("vida2");
+
+        lastVida1 = v1;
+        lastVida2 = v2;
+    });
+}
+
+function animacaoPerderVida(id) {
+    const som = document.getElementById("som-tiro");
+    som.currentTime = 0;
+    som.play();
+
+    let el = document.getElementById(id);
+    el.classList.add("perdeu");
+    setTimeout(() => el.classList.remove("perdeu"), 400);
+}
+
+setInterval(atualizar, 200);
+</script>
+
+</body>
+</html>
