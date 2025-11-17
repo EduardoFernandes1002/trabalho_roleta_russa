@@ -100,9 +100,9 @@ while vida1 > 0 and vida2 > 0:
 
 msg = ''
 if vida1 == 0:
-    msg = f"Jogador {vez} Ganhou com {vida2} vidas restantes"
+    msg = f"Jogador {vez} Ganhou com {vida2} vida(s) restantes"
 elif vida2 == 0:
-    msg = f"Jogador {vez} Ganhou com {vida1} vidas restantes"
+    msg = f"Jogador {vez} Ganhou com {vida1} vida(s) restantes"
 
 print(msg)
 escrever_txt(msg)
