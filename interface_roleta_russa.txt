@@ -1,4 +1,6 @@
-Jogador vez: 1
-Vidas Jogador 1: 3
-Vidas Jogador 2: 3
+Jogador vez: 2
+Vidas Jogador 1: 0
+Vidas Jogador 2: 1
 Tambores restantes: 6
+Jogador 2 Ganhou com 1 vida(s) restantes
+Fim de jogo!

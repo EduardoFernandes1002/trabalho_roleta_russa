@@ -67,10 +67,10 @@ def atirar(escolhido, vidas):
     atualizar_interface()
     return vidas
 
-def escolha():
+def escolhas():
     global vida1, vida2, vez
     escolha = input("   1 - Atirar em si mesmo😨\n   2 - Atirar no coleguinha😊\n\nEscolha: ")
-
+    
     match escolha:
         case "1":
             if vez == 1:
@@ -86,6 +86,7 @@ def escolha():
         case _:
             print("Escolha uma opção valida")
             escrever_txt("Escolha inválida")
+            escolhas()
 
 # Limpa arquivo e escreve status inicial
 limpar_txt()
@@ -94,7 +95,7 @@ atualizar_interface()
 #Loop principal
 while vida1 > 0 and vida2 > 0:
     print(f"\nJogador {vez} — suas vidas: {vida1 if vez == 1 else vida2}\nTambores restantes {contador}\n")
-    escolha()
+    escolhas()
     contador -= 1
     atualizar_interface()
 
